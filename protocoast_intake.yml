@@ -1,0 +1,94 @@
+# THIS FILE AUTO-GENERATED
+# This 'header' information needed to make this yml valid.  
+description: 'intake catalog example'
+metadata:
+  version: 1
+  description: "Intake Catalog for data from ProtoCoast Project"
+
+sources:
+# If you are copy/paste-ing this entry to another catalog, you only need the 
+# lines from here down in your 'sources' section (be sure to indent as appropriate).
+  Taranto-SHYFEM:
+    driver: intake_xarray.xzarr.ZarrSource
+    description: 'Taranto SHYFEM forecast model'
+    args:
+      urlpath: ['reference://']
+      consolidated: False
+      storage_options:
+        target_options:
+          anon: False
+          endpoint_url: 'https://pangeo-eosc-minioapi.vm.fedcloud.eu'
+        fo: s3://rsignell4-protocoast/testing/shyfem_taranto_combined.json
+        lazy: False
+        asynchronous: True
+        remote_options:
+          anon: False
+          asynchronous: True
+          endpoint_url: 'https://pangeo-eosc-minioapi.vm.fedcloud.eu'
+        remote_protocol: 's3'
+  Civitavecchia-SHYFEM:
+    driver: intake_xarray.xzarr.ZarrSource
+    description: 'Civitavecchia SHYFEM forecast model'
+    args:
+      urlpath: ['reference://']
+      consolidated: False
+      storage_options:
+        target_options:
+          anon: False
+          endpoint_url: 'https://pangeo-eosc-minioapi.vm.fedcloud.eu'
+        fo: s3://rsignell4-protocoast/testing/civitavecchia_shyfem_combined.json
+        lazy: False
+        asynchronous: True
+        remote_options:
+          anon: False
+          asynchronous: True
+          endpoint_url: 'https://pangeo-eosc-minioapi.vm.fedcloud.eu'
+        remote_protocol: 's3'
+  Civitavecchia-SHYFEM-FMRC:
+    driver: intake_xarray.xzarr.ZarrSource
+    description: 'Civitavecchia SHYFEM forecast model FRMC'
+    args:
+      urlpath: ['reference://']
+      consolidated: False
+      storage_options:
+        target_options:
+          anon: False
+          endpoint_url: 'https://pangeo-eosc-minioapi.vm.fedcloud.eu'
+        fo: s3://rsignell4-protocoast/full_dataset/shyfem/civitavec/civitavec_fmrc.parq
+        lazy: True
+        asynchronous: True
+        remote_options:
+          anon: False
+          asynchronous: True
+          endpoint_url: 'https://pangeo-eosc-minioapi.vm.fedcloud.eu'
+        remote_protocol: 's3'
+  Taranto-SHYFEM-FMRC:
+    driver: intake_xarray.xzarr.ZarrSource
+    description: 'Taranto SHYFEM forecast model FRMC'
+    args:
+      urlpath: ['reference://']
+      consolidated: False
+      storage_options:
+        target_options:
+          anon: False
+          endpoint_url: 'https://pangeo-eosc-minioapi.vm.fedcloud.eu'
+        fo: s3://rsignell4-protocoast/full_dataset/shyfem/taranto/taranto_fmrc.parq
+        lazy: True
+        asynchronous: True
+        remote_options:
+          anon: False
+          asynchronous: True
+          endpoint_url: 'https://pangeo-eosc-minioapi.vm.fedcloud.eu'
+        remote_protocol: 's3'
+  Taranto-OBS-WaterLevelHistory:
+    driver: netcdf
+    args:
+      # The S3 path to your NetCDF file
+      urlpath: "s3://rsignell4-protocoast/data/IR_TS_TG_Taranto1TG.nc"
+      storage_options:
+      # These options are passed to s3fs.S3FileSystem
+        anon: False
+        client_kwargs:
+          endpoint_url: 'https://pangeo-eosc-minioapi.vm.fedcloud.eu'
+      xarray_kwargs:
+        engine: h5netcdf
