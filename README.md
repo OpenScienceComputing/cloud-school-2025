@@ -1,7 +1,7 @@
 # Cloud School, Fall 2025
 
 Notebooks for the 2025 Cloud Fall School in Bologna @ CMCC (Oct 13-17, 2025)
-[School Feedback Responses](./pangeo_class_survey_results.pdf)
+* [School Feedback Responses](./pangeo_class_survey_results.pdf)
 
 We used the [Pangeo@EOSC JupyterHub](https://pangeo-eosc.vm.fedcloud.eu/) with Dask Gateway and S3-compatible storage, selecting the `quay.io/globalcoast/protocoast-notebook:main` image for our server. 
 
