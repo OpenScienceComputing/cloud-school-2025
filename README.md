@@ -1,6 +1,6 @@
 # Cloud School, Fall 2025
 
-Notebooks for the 2025 Cloud Fall School in Bologna @ CMCC (Oct 13-17, 2025)
+Notebooks for the 2025 Cloud Fall School in Bologna (Oct 13-17, 2025), co-organized by [CMCC](https://www.cmcc.it/), the [University of Bologna](https://www.unibo.it/en), and [EGI](https://www.egi.eu/).
 * [School Feedback Responses](./pangeo_class_survey_results.pdf)
 
 We used the [Pangeo@EOSC JupyterHub](https://pangeo-eosc.vm.fedcloud.eu/) with Dask Gateway and S3-compatible storage, selecting the `quay.io/globalcoast/protocoast-notebook:main` image for our server. 
