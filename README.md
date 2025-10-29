@@ -1,4 +1,4 @@
-# Cloud School, Fall 2025
+# Cloud-Native Earth Science Data Analysis and Visualization School, Fall 2025
 Co-organized by [CMCC](https://www.cmcc.it/), the [University of Bologna](https://www.unibo.it/en), and [EGI](https://www.egi.eu/).
 ## Location
 University of Bologna, Italy (Oct 13-17, 2025),
