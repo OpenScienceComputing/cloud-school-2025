@@ -21,4 +21,4 @@ This course used the [Pangeo@EOSC JupyterHub](https://pangeo-eosc.vm.fedcloud.eu
 <img width="738" height="471" alt="{E896C408-E462-4F02-90C7-39C323E2129B}" src="https://github.com/user-attachments/assets/a1ef3b4e-8549-4c36-9311-ff415f115dc1" />
 
 ## Feedback
-[School Feedback Responses](./pangeo_class_survey_results.pdf)
+All students said they would recommend the class to others, and Holoviz and Virtualizarr/Icechunk were the tools that excited students the most.  Sees the full [School Feedback Responses](./pangeo_class_survey_results.pdf)
