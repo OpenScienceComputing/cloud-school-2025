@@ -123,7 +123,9 @@ producing a Dataset that looks like:
 <img width="940" height="685" alt="image" src="https://github.com/user-attachments/assets/87d1794b-676a-4c29-9ba7-e6cc695dd11a" />
 
 which allows us to easily perform operations like time series extraction and plotting at a specific location (a process which takes less than 3 seconds):
+
 <img width="919" height="400" alt="image" src="https://github.com/user-attachments/assets/b79b45c7-383c-462a-bed9-576cf43a266f" />
 
+Full notebook [here](https://github.com/OpenScienceComputing/cloud-school-2025/blob/main/taranto-icechunk-FMRC.ipynb).
 
 
