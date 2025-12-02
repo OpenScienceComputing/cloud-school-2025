@@ -1,7 +1,3 @@
-That's a great approach to making the document cleaner and more professional. I'll modify the text to embed the links directly into the names of the projects and tools, removing the extra parenthetical URLs and documentation text.
-
-Here is the final, polished blog post:
-
 ## 🌊 Cloud-Native Solutions for Met/Ocean Forecast Data
 
 A fundamental challenge in **meteorological and oceanographic (met/ocean) forecasting** is the efficient distribution of forecast model results. Standard forecast models typically run daily (e.g., a 3-day forecast run every day), creating a collection of files with **overlapping time coordinates**. End-users, however, almost always require a **continuous time series** (e.g., a "best time series") to simplify analysis and comparison with observational data.
@@ -35,7 +31,7 @@ This exact pipeline has recently been implemented to support the **CoastPredict/
 
 To standardize computation and accelerate progress, **ProtoCoast** is a key GlobalCoast initiative focused on enabling **cloud-native workflows** for model execution, data accessibility (both observational and model output), and the creation of shared research environments.
 
-ProtoCoast utilizes the **EGI Cloud Infrastructure**. Initial workflow testing has been conducted on the **Pangeo@EOSC JupyterHub**, which runs on EGI and is developed and maintained by the X project.
+ProtoCoast utilizes the **EGI Cloud Infrastructure**. Initial workflow testing has been conducted on the **Pangeo@EOSC JupyterHub** funded by European Union Horizon 2020 projects (EGI-ACE, and C-SCALE).  These projects worked with the Pangeo Europe Community and EGI (E-infrastructure Grid) to deploy the platform—a DaskHub composed of Dask Gateway and JupyterHub—on the EGI Cloud Compute infrastructure within the European Open Science Cloud (EOSC). The infrastructure provision also received an in-kind contribution from the e-INFRA CZ project. 
 
 -----
 
@@ -118,6 +114,8 @@ ds.virtualize.to_icechunk(append_session.store, append_dim="time")
 A full notebook version of this script is [here](https://www.google.com/search?q=https://github.com/OpenScienceComputing/cloud-school-2025/blob/main/taranto-icechunk-append.ipynb).
 
 The resulting virtual dataset in Xarray, now structured for FMRC indexing, appears as:
+<img width="923" height="610" alt="Screenshot 2025-12-02 092413" src="https://github.com/user-attachments/assets/49c0b169-d86f-4764-bd09-5768bb370605" />
+
 
 ### Dynamic Views with Rolodex
 
@@ -139,10 +137,12 @@ newds = ds.drop_indexes(["time", "step"]).set_xindex(
 
 ds_best = newds.sel(valid_time=BestEstimate(offset=2))  # start at forecast hour 2 instead of 0
 ```
-
 This produces a dynamically indexed dataset, effectively a continuous time series:
+<img width="940" height="685" alt="Screenshot 2025-12-02 092738" src="https://github.com/user-attachments/assets/18540858-f761-46af-b177-cba9dd188085" />
+
 
 This cloud-native pipeline allows for rapid extraction and plotting of time series data at a specific location, taking less than 3 seconds for the operation.
+<img width="919" height="400" alt="Screenshot 2025-12-02 092836" src="https://github.com/user-attachments/assets/2ba53f37-a1f7-402e-bc66-d62e92adbfc7" />
 
 Full notebook [here](https://www.google.com/search?q=https://github.com/OpenScienceComputing/cloud-school-2025/blob/main/taranto-icechunk-FMRC.ipynb).
 
