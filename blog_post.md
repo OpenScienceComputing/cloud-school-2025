@@ -1,9 +1,9 @@
-## 🌊 Cloud-Native Solutions for Met/Ocean Forecast Data
+# 🌊 A Cloud-Native Solution for Met/Ocean Forecast Model Data Collections
 ### Rich Signell, Open Science Computing, LLC
 
 <img width="700" alt="Screenshot 2025-10-06 141233" src="https://github.com/user-attachments/assets/26701908-fcf3-4405-96b6-db2507d566f5" />
 
-A fundamental challenge in **meteorological and oceanographic (met/ocean) forecasting** is the efficient distribution of forecast model results. Standard forecast models typically run daily (e.g., a 3-day forecast run every day), creating a collection of files with **overlapping time coordinates**. End-users, however, almost always require a **continuous time series** (e.g., a "best time series") to simplify analysis and comparison with observational data.
+A fundamental challenge in **meteorological and oceanographic forecasting** is the efficient distribution of forecast model results. Standard forecast models typically run daily (e.g., a 3-day forecast run every day), creating a collection of files with **overlapping time coordinates**. End-users, however, almost always require a **continuous time series** (e.g., a "best time series") to simplify analysis and comparison with observational data.
 
 Historically, data providers addressed this by:
 
@@ -153,4 +153,4 @@ Full notebook [here](https://www.google.com/search?q=https://github.com/OpenScie
 
 ## 💡 Conclusion
 
-The implementation of this pipeline for the **GlobalCoast/Protocoast** project successfully demonstrates a highly scalable and resilient approach to distributing complex met/ocean forecast data. By shifting from traditional data copying/merging to a **cloud-native virtualization strategy** leveraging **Virtualizarr, Icechunk, and Rolodex**, we have enabled **on-the-fly FMRC views** like the "best time series." This modern architecture ensures that end-users—whether running analysis on the **Pangeo@EOSC JupyterHub** or supporting critical coastal management decisions—have immediate, performant access to the continuous, authoritative data they require, all while streamlining the data provider's workflow and maximizing the utility of the EGI Cloud Infrastructure.
+The implementation of this pipeline for the **GlobalCoast/Protocoast** project successfully demonstrates a highly scalable and resilient approach to distributing complex met/ocean forecast data. By shifting from traditional data copying/merging to a **cloud-native virtualization strategy** leveraging **Virtualizarr, Icechunk, and Rolodex**, we have enabled **on-the-fly FMRC views** like the "best time series." This modern architecture ensures that end-users, whether running analysis on the **Pangeo@EOSC JupyterHub** or supporting critical coastal management decisions, have immediate, performant access to the continuous, authoritative data they require, all while streamlining the data provider's workflow and maximizing the utility of the EGI Cloud Infrastructure.
