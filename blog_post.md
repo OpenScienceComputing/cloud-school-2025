@@ -114,7 +114,7 @@ ds.virtualize.to_icechunk(append_session.store, append_dim="time")
 A full notebook version of this script is [here](https://www.google.com/search?q=https://github.com/OpenScienceComputing/cloud-school-2025/blob/main/taranto-icechunk-append.ipynb).
 
 The resulting virtual dataset in Xarray, now structured for FMRC indexing, appears as:
-<img width="923" height="610" alt="Screenshot 2025-12-02 092413" src="https://github.com/user-attachments/assets/49c0b169-d86f-4764-bd09-5768bb370605" />
+<img width="700" alt="Screenshot 2025-12-02 092413" src="https://github.com/user-attachments/assets/49c0b169-d86f-4764-bd09-5768bb370605" />
 
 
 ### Dynamic Views with Rolodex
@@ -138,11 +138,11 @@ newds = ds.drop_indexes(["time", "step"]).set_xindex(
 ds_best = newds.sel(valid_time=BestEstimate(offset=2))  # start at forecast hour 2 instead of 0
 ```
 This produces a dynamically indexed dataset, effectively a continuous time series:
-<img width="940" height="685" alt="Screenshot 2025-12-02 092738" src="https://github.com/user-attachments/assets/18540858-f761-46af-b177-cba9dd188085" />
+<img width="700" alt="Screenshot 2025-12-02 092738" src="https://github.com/user-attachments/assets/18540858-f761-46af-b177-cba9dd188085" />
 
 
 This cloud-native pipeline allows for rapid extraction and plotting of time series data at a specific location, taking less than 3 seconds for the operation.
-<img width="919" height="400" alt="Screenshot 2025-12-02 092836" src="https://github.com/user-attachments/assets/2ba53f37-a1f7-402e-bc66-d62e92adbfc7" />
+<img width="700"  alt="Screenshot 2025-12-02 092836" src="https://github.com/user-attachments/assets/2ba53f37-a1f7-402e-bc66-d62e92adbfc7" />
 
 Full notebook [here](https://www.google.com/search?q=https://github.com/OpenScienceComputing/cloud-school-2025/blob/main/taranto-icechunk-FMRC.ipynb).
 
