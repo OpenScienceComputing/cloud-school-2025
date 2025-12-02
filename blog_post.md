@@ -1,3 +1,7 @@
+That's a great approach to making the document cleaner and more professional. I'll modify the text to embed the links directly into the names of the projects and tools, removing the extra parenthetical URLs and documentation text.
+
+Here is the final, polished blog post:
+
 ## 🌊 Cloud-Native Solutions for Met/Ocean Forecast Data
 
 A fundamental challenge in **meteorological and oceanographic (met/ocean) forecasting** is the efficient distribution of forecast model results. Standard forecast models typically run daily (e.g., a 3-day forecast run every day), creating a collection of files with **overlapping time coordinates**. End-users, however, almost always require a **continuous time series** (e.g., a "best time series") to simplify analysis and comparison with observational data.
@@ -5,7 +9,7 @@ A fundamental challenge in **meteorological and oceanographic (met/ocean) foreca
 Historically, data providers addressed this by:
 
   * Creating new, consolidated "best time series" datasets by cutting and merging segments from the individual forecast runs.
-  * Utilizing data services like **THREDDS** (Thematic Real-time Environmental Distributed Data Services, [THREDDS Data Server Documentation](https://www.ncei.noaa.gov/access/thredds-user-guide)) to create virtual Forecast Model Run Collection (FMRC) datasets, offering views like "best time series" or "constant forecast."
+  * Utilizing data services like **THREDDS** to create virtual Forecast Model Run Collection (FMRC) datasets, offering views like "best time series" or "constant forecast."
 
 -----
 
@@ -13,9 +17,9 @@ Historically, data providers addressed this by:
 
 For **cloud-native workflows**, a more scalable, flexible, and robust approach is now available. This modern strategy leverages specialized tools to construct virtual data views dynamically, avoiding expensive data copying and reformatting:
 
-1.  **Virtualizarr** ([Documentation](https://virtualizarr.readthedocs.io/)) is used to create virtual references (metadata) for the model output files.
-2.  These references are indexed into an **Icechunk repository** ([GitHub](https://github.com/earth-mover/icechunk)).
-3.  **Rolodex** ([Xarray Forecast Indexing](https://xarray-indexes.readthedocs.io/earth/forecast.html)) then uses **Xarray's advanced indexing capabilities** to construct the required views (like the "best time series") on the fly, providing immediate access to continuous data streams.
+1.  **Virtualizarr** is used to create virtual references (metadata) for the model output files.
+2.  These references are indexed into an **Icechunk repository**.
+3.  **Rolodex** then uses **Xarray's advanced indexing capabilities** to construct the required views (like the "best time series") on the fly, providing immediate access to continuous data streams.
 
 This exact pipeline has recently been implemented to support the **CoastPredict/GlobalCoast/Protocoast** project.
 
@@ -23,15 +27,15 @@ This exact pipeline has recently been implemented to support the **CoastPredict/
 
 ## 🌍 The GlobalCoast and ProtoCoast Initiatives
 
-**CoastPredict** is a Programme endorsed under the UN Decade of Ocean Science for Sustainable Development, focused on revolutionizing Global Coastal Ocean observation and forecasting. (Learn more at [coastpredict.org](https://www.coastpredict.org/))
+**CoastPredict** is a Programme endorsed under the UN Decade of Ocean Science for Sustainable Development, focused on revolutionizing Global Coastal Ocean observation and forecasting.
 
-**GlobalCoast** is a European-led endorsed action under the UN Decade of Ocean Science for Sustainable Development. It provides the framework for establishing a seamless, integrated, and sustained **global coastal ocean observing and forecasting system**. (Find out more about the GlobalCoast Initiative on the CoastPredict website: [coastpredict.org/globalcoast-initiative](https://www.coastpredict.org/globalcoast-initiative/)) This system aims to improve the understanding of coastal processes, enhance the prediction of coastal hazards, and deliver essential information for the sustainable management of coastal resources, addressing critical issues like sea-level rise and marine pollution.
+**GlobalCoast** is a European-led endorsed action under the UN Decade of Ocean Science for Sustainable Development. It provides the framework for establishing a seamless, integrated, and sustained **global coastal ocean observing and forecasting system**. This system aims to improve the understanding of coastal processes, enhance the prediction of coastal hazards, and deliver essential information for the sustainable management of coastal resources, addressing critical issues like sea-level rise and marine pollution.
 
 ### ProtoCoast: Enabling Cloud-Native Workflows
 
-To standardize computation and accelerate progress, **ProtoCoast** ([Initiative Page](https://www.coastpredict.org/protocoast-cloud/)) is a key GlobalCoast initiative focused on enabling **cloud-native workflows** for model execution, data accessibility (both observational and model output), and the creation of shared research environments.
+To standardize computation and accelerate progress, **ProtoCoast** is a key GlobalCoast initiative focused on enabling **cloud-native workflows** for model execution, data accessibility (both observational and model output), and the creation of shared research environments.
 
-ProtoCoast utilizes the **EGI Cloud Infrastructure** ([Official Website](https://www.egi.eu/)). Initial workflow testing has been conducted on the **Pangeo@EOSC JupyterHub** ([Access Portal](https://pangeo-eosc.vm.fedcloud.eu/)), which runs on EGI and is developed and maintained by the X project.
+ProtoCoast utilizes the **EGI Cloud Infrastructure**. Initial workflow testing has been conducted on the **Pangeo@EOSC JupyterHub**, which runs on EGI and is developed and maintained by the X project.
 
 -----
 
@@ -49,7 +53,7 @@ ProtoCoast features several pilot sites producing both forecast model output and
 The initial step in the cloud-native data pipeline is preparing the model output for efficient cloud access.
 
   * The two NetCDF3 files produced by SHYFEM are **reformatted and rechunked** on the High-Performance Computing (HPC) system where the model runs.
-  * The **NCO (NetCDF Operators)** tool ([Official Site](https://nco.sourceforge.net/)) is used for this process, converting the data to **NetCDF4 (optimized for cloud I/O)**. This choice retains the NetCDF format to support existing legacy applications while gaining cloud-optimized features.
+  * The **NCO (NetCDF Operators)** tool is used for this process, converting the data to **NetCDF4 (optimized for cloud I/O)**. This choice retains the NetCDF format to support existing legacy applications while gaining cloud-optimized features.
 
 The rechunking command specifies the new chunk sizes for better performance:
 
