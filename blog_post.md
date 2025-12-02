@@ -142,13 +142,15 @@ ds_best = newds.sel(valid_time=BestEstimate(offset=2))  # start at forecast hour
 ```
 
 This produces a virtual dataset with a continuous time variable:
+
 <img width="700" alt="Screenshot 2025-12-02 092738" src="https://github.com/user-attachments/assets/18540858-f761-46af-b177-cba9dd188085" />
 
 
 This cloud-native pipeline allows for rapid extraction and plotting of time series data at a specific location, taking less than 3 seconds for the operation.
+
 <img width="700"  alt="Screenshot 2025-12-02 092836" src="https://github.com/user-attachments/assets/2ba53f37-a1f7-402e-bc66-d62e92adbfc7" />
 
-Full notebook [here](https://www.google.com/search?q=https://github.com/OpenScienceComputing/cloud-school-2025/blob/main/taranto-icechunk-FMRC.ipynb).
+The complete Jupyter Notebook is [here](https://www.google.com/search?q=https://github.com/OpenScienceComputing/cloud-school-2025/blob/main/taranto-icechunk-FMRC.ipynb).
 
 -----
 
