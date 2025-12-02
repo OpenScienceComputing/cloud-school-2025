@@ -1,4 +1,4 @@
-# 🌊 Working with Met/Ocean Forecast Model Run Collections: A Cloud-Native Approach
+# Met/Ocean Forecast Model Run Collections: A Cloud-Native Approach
 ### Rich Signell, Open Science Computing, LLC
 
 <img width="700" alt="Screenshot 2025-10-06 141233" src="https://github.com/user-attachments/assets/26701908-fcf3-4405-96b6-db2507d566f5" />
