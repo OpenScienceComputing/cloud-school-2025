@@ -5,7 +5,7 @@ A fundamental challenge in **meteorological and oceanographic (met/ocean) foreca
 Historically, data providers addressed this by:
 
   * Creating new, consolidated "best time series" datasets by cutting and merging segments from the individual forecast runs.
-  * Utilizing data services like **THREDDS** to create virtual Forecast Model Run Collection (FMRC) datasets, offering views like "best time series" or "constant forecast."
+  * Utilizing data services like **THREDDS** (Thematic Real-time Environmental Distributed Data Services, [THREDDS Data Server Documentation](https://www.ncei.noaa.gov/access/thredds-user-guide)) to create virtual Forecast Model Run Collection (FMRC) datasets, offering views like "best time series" or "constant forecast."
 
 -----
 
@@ -13,9 +13,9 @@ Historically, data providers addressed this by:
 
 For **cloud-native workflows**, a more scalable, flexible, and robust approach is now available. This modern strategy leverages specialized tools to construct virtual data views dynamically, avoiding expensive data copying and reformatting:
 
-1.  **Virtualizarr** is used to create virtual references (metadata) for the model output files.
-2.  These references are indexed into an **Icechunk repository**.
-3.  **Rolodex** then uses **Xarray's advanced indexing capabilities** to construct the required views (like the "best time series") on the fly, providing immediate access to continuous data streams.
+1.  **Virtualizarr** ([Documentation](https://virtualizarr.readthedocs.io/)) is used to create virtual references (metadata) for the model output files.
+2.  These references are indexed into an **Icechunk repository** ([GitHub](https://github.com/earth-mover/icechunk)).
+3.  **Rolodex** ([Xarray Forecast Indexing](https://xarray-indexes.readthedocs.io/earth/forecast.html)) then uses **Xarray's advanced indexing capabilities** to construct the required views (like the "best time series") on the fly, providing immediate access to continuous data streams.
 
 This exact pipeline has recently been implemented to support the **CoastPredict/GlobalCoast/Protocoast** project.
 
@@ -23,13 +23,15 @@ This exact pipeline has recently been implemented to support the **CoastPredict/
 
 ## 🌍 The GlobalCoast and ProtoCoast Initiatives
 
-**GlobalCoast** is a European-led endorsed action under the UN Decade of Ocean Science for Sustainable Development. It provides the framework for establishing a seamless, integrated, and sustained **global coastal ocean observing and forecasting system**. This system aims to improve the understanding of coastal processes, enhance the prediction of coastal hazards, and deliver essential information for the sustainable management of coastal resources, addressing critical issues like sea-level rise and marine pollution.
+**CoastPredict** is a Programme endorsed under the UN Decade of Ocean Science for Sustainable Development, focused on revolutionizing Global Coastal Ocean observation and forecasting. (Learn more at [coastpredict.org](https://www.coastpredict.org/))
+
+**GlobalCoast** is a European-led endorsed action under the UN Decade of Ocean Science for Sustainable Development. It provides the framework for establishing a seamless, integrated, and sustained **global coastal ocean observing and forecasting system**. (Find out more about the GlobalCoast Initiative on the CoastPredict website: [coastpredict.org/globalcoast-initiative](https://www.coastpredict.org/globalcoast-initiative/)) This system aims to improve the understanding of coastal processes, enhance the prediction of coastal hazards, and deliver essential information for the sustainable management of coastal resources, addressing critical issues like sea-level rise and marine pollution.
 
 ### ProtoCoast: Enabling Cloud-Native Workflows
 
-To standardize computation and accelerate progress, **ProtoCoast** is a key GlobalCoast initiative focused on enabling **cloud-native workflows** for model execution, data accessibility (both observational and model output), and the creation of shared research environments.
+To standardize computation and accelerate progress, **ProtoCoast** ([Initiative Page](https://www.coastpredict.org/protocoast-cloud/)) is a key GlobalCoast initiative focused on enabling **cloud-native workflows** for model execution, data accessibility (both observational and model output), and the creation of shared research environments.
 
-ProtoCoast utilizes the **EGI Cloud Infrastructure**. Initial workflow testing has been conducted on the **Pangeo@EOSC JupyterHub**, which runs on EGI and is developed and maintained by the X project.
+ProtoCoast utilizes the **EGI Cloud Infrastructure** ([Official Website](https://www.egi.eu/)). Initial workflow testing has been conducted on the **Pangeo@EOSC JupyterHub** ([Access Portal](https://pangeo-eosc.vm.fedcloud.eu/)), which runs on EGI and is developed and maintained by the X project.
 
 -----
 
@@ -47,7 +49,7 @@ ProtoCoast features several pilot sites producing both forecast model output and
 The initial step in the cloud-native data pipeline is preparing the model output for efficient cloud access.
 
   * The two NetCDF3 files produced by SHYFEM are **reformatted and rechunked** on the High-Performance Computing (HPC) system where the model runs.
-  * The **NCO (NetCDF Operators)** tool is used for this process, converting the data to **NetCDF4 (optimized for cloud I/O)**. This choice retains the NetCDF format to support existing legacy applications while gaining cloud-optimized features.
+  * The **NCO (NetCDF Operators)** tool ([Official Site](https://nco.sourceforge.net/)) is used for this process, converting the data to **NetCDF4 (optimized for cloud I/O)**. This choice retains the NetCDF format to support existing legacy applications while gaining cloud-optimized features.
 
 The rechunking command specifies the new chunk sizes for better performance:
 
@@ -109,7 +111,7 @@ ds = xr.merge([combined_nos, combined_ous], compat='override')
 ds.virtualize.to_icechunk(append_session.store, append_dim="time")
 ```
 
-A full notebook version of this script is [here](https://github.com/OpenScienceComputing/cloud-school-2025/blob/main/taranto-icechunk-append.ipynb).
+A full notebook version of this script is [here](https://www.google.com/search?q=https://github.com/OpenScienceComputing/cloud-school-2025/blob/main/taranto-icechunk-append.ipynb).
 
 The resulting virtual dataset in Xarray, now structured for FMRC indexing, appears as:
 
@@ -138,12 +140,10 @@ This produces a dynamically indexed dataset, effectively a continuous time serie
 
 This cloud-native pipeline allows for rapid extraction and plotting of time series data at a specific location, taking less than 3 seconds for the operation.
 
-Full notebook [here](https://github.com/OpenScienceComputing/cloud-school-2025/blob/main/taranto-icechunk-FMRC.ipynb).
+Full notebook [here](https://www.google.com/search?q=https://github.com/OpenScienceComputing/cloud-school-2025/blob/main/taranto-icechunk-FMRC.ipynb).
 
 -----
 
 ## 💡 Conclusion
 
 The implementation of this pipeline for the **GlobalCoast/Protocoast** project successfully demonstrates a highly scalable and resilient approach to distributing complex met/ocean forecast data. By shifting from traditional data copying/merging to a **cloud-native virtualization strategy** leveraging **Virtualizarr, Icechunk, and Rolodex**, we have enabled **on-the-fly FMRC views** like the "best time series." This modern architecture ensures that end-users—whether running analysis on the **Pangeo@EOSC JupyterHub** or supporting critical coastal management decisions—have immediate, performant access to the continuous, authoritative data they require, all while streamlining the data provider's workflow and maximizing the utility of the EGI Cloud Infrastructure.
-
------
