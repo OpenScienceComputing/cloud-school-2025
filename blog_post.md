@@ -3,24 +3,25 @@
 
 <img width="700" alt="Screenshot 2025-10-06 141233" src="https://github.com/user-attachments/assets/26701908-fcf3-4405-96b6-db2507d566f5" />
 
-A fundamental challenge in **meteorological and oceanographic forecasting** is the efficient distribution of forecast model results. Standard forecast models typically run daily (e.g., a 3-day forecast run every day), creating a collection of files with **overlapping time coordinates**. End-users, however, almost always require a **continuous time series** (e.g., a "best time series") to simplify analysis and comparison with observational data.
+
+A fundamental challenge in **meteorological and oceanographic (met/ocean) forecasting** is the efficient distribution of forecast model results. Standard forecast models typically have a forecast duration that is longer than the time between forecasts (e.g., a 3-day forecast run every day), creating a collection of files with **overlapping time coordinates**. End-users, however, almost always want a **continuous time series** (e.g., a "best time series") to compare with observational data.
 
 Historically, data providers addressed this by:
 
   * Creating new, consolidated "best time series" datasets by cutting and merging segments from the individual forecast runs.
-  * Utilizing data services like **THREDDS** to create virtual Forecast Model Run Collection (FMRC) datasets, offering views like "best time series" or "constant forecast."
+  * Utilizing data services like **[THREDDS](https://www.ncei.noaa.gov/access/thredds-user-guide)** to create virtual Forecast Model Run Collection (FMRC) datasets, offering views like "best time series" or "constant forecast offset."
 
 -----
 
 ### The Modern Cloud-Native Approach
 
-For **cloud-native workflows**, a more scalable, flexible, and robust approach is now available. This modern strategy leverages specialized tools to construct virtual data views dynamically, avoiding expensive data copying and reformatting:
+For **cloud-native workflows**, a more scalable, flexible, and robust approach is now available. This modern strategy leverages specialized tools to construct virtual data views dynamically:
 
-1.  **Virtualizarr** is used to create virtual references (metadata) for the model output files.
-2.  These references are indexed into an **Icechunk repository**.
-3.  **Rolodex** then uses **Xarray's advanced indexing capabilities** to construct the required views (like the "best time series") on the fly, providing immediate access to continuous data streams.
+1.  **[Virtualizarr](https://virtualizarr.readthedocs.io/)** is used to create virtual references (metadata) for the model output files.
+2.  These references are indexed into an **[Icechunk repository](https://github.com/earth-mover/icechunk)**.
+3.  **[Rolodex](https://xarray-indexes.readthedocs.io/earth/forecast.html)** then uses **Xarray's advanced indexing capabilities** to construct the required views (like the "best time series") on the fly, providing immediate access to continuous data streams.
 
-This exact pipeline has recently been implemented to support the **CoastPredict/GlobalCoast/Protocoast** project.
+This exact pipeline has recently been implemented to support the **[CoastPredict](https://www.coastpredict.org/)/[GlobalCoast](https://www.coastpredict.org/globalcoast-initiative/)/[Protocoast](https://www.coastpredict.org/protocoast-cloud/)** project.
 
 -----
 
@@ -34,7 +35,7 @@ This exact pipeline has recently been implemented to support the **CoastPredict/
 
 To standardize computation and accelerate progress, **ProtoCoast** is a key GlobalCoast initiative focused on enabling **cloud-native workflows** for model execution, data accessibility (both observational and model output), and the creation of shared research environments.
 
-ProtoCoast utilizes the **EGI Cloud Infrastructure**. Initial workflow testing has been conducted on the **Pangeo@EOSC JupyterHub** funded by European Union Horizon 2020 projects (EGI-ACE, and C-SCALE).  These projects worked with the Pangeo Europe Community and EGI (E-infrastructure Grid) to deploy the platform—a DaskHub composed of Dask Gateway and JupyterHub—on the EGI Cloud Compute infrastructure within the European Open Science Cloud (EOSC). The infrastructure provision also received an in-kind contribution from the e-INFRA CZ project. 
+ProtoCoast utilizes the **[EGI Cloud Infrastructure](https://www.egi.eu/)**. Initial workflow testing has been conducted on the **[Pangeo@EOSC JupyterHub](https://pangeo-eosc.vm.fedcloud.eu/)**, which runs on EGI infrastructure in the Czech Republic. 
 
 -----
 
@@ -52,9 +53,9 @@ ProtoCoast features several pilot sites producing both forecast model output and
 The initial step in the cloud-native data pipeline is preparing the model output for efficient cloud access.
 
   * The two NetCDF3 files produced by SHYFEM are **reformatted and rechunked** on the High-Performance Computing (HPC) system where the model runs.
-  * The **NCO (NetCDF Operators)** tool is used for this process, converting the data to **NetCDF4 (optimized for cloud I/O)**. This choice retains the NetCDF format to support existing legacy applications while gaining cloud-optimized features.
+  * The **[NCO (NetCDF Operators)](https://nco.sourceforge.net/)** tool is used for this process, converting the data to NetCDF4. This choice retains the NetCDF format to support existing legacy applications while making the chunk size and shape more appropriate for cloud-based use (another choice would have been converting to Zarr format).
 
-The rechunking command specifies the new chunk sizes for better performance:
+The NCO rechunking command specifies the new chunk sizes:
 
 ```bash
 ncks -4 -L 5 -O -d time,0,143 --cnk_dmn=time,72 --cnk_dmn=node,16000 --cnk_dmn=level,1 --cnk_plc=all taranto_nos.nc taranto_nos_20251205_nc4.nc
@@ -66,13 +67,13 @@ This configuration results in approximately **4MB chunks** for both 2D (like ele
 
 ### Step 2: Virtualization and Indexing with Virtualizarr, Icechunk, and Rolodex
 
-Once the files are in the cloud, a Python script running on the HPC system executes the core virtualization process. This involves:
+Once the files are in the cloud, a Python script then runs on the HPC system that performs:
 
-1.  **Creating Virtual References:** Virtualizarr generates references to the data.
-2.  **FMRC Convention Formatting:** The single `time` coordinate (hourly steps) in the raw NetCDF files is converted to the Forecast Model Run Collection (FMRC) convention required by Rolodex, resulting in two new coordinate variables: `valid_time` (the analysis time) and `step` (the forecast period offset).
+1.  **Creating Virtual References:** Virtualizarr generates references to the rechunked NetCDF4 data.
+2.  **FMRC Convention Formatting:** The single `time` coordinate (hourly steps) in the raw NetCDF files is converted to the Forecast Model Run Collection (FMRC) convention required by Rolodex, resulting in two new coordinate variables: `time` (the analysis time, with a single value) and `step` (the forecast period offsets, with 144 values).
 3.  **Appending to Icechunk:** The references are then appended to a virtual Icechunk repository along the new `valid_time` dimension.
 
-The code to transform and combine the datasets looks like this:
+The code looks like this:
 
 ```python
 ds_list = [
@@ -119,10 +120,9 @@ A full notebook version of this script is [here](https://www.google.com/search?q
 The resulting virtual dataset in Xarray, now structured for FMRC indexing, appears as:
 <img width="700" alt="Screenshot 2025-12-02 092413" src="https://github.com/user-attachments/assets/49c0b169-d86f-4764-bd09-5768bb370605" />
 
-
 ### Dynamic Views with Rolodex
 
-Finally, **Rolodex** is used to extract a **"best time series"** view dynamically. We select a constant forecast offset (e.g., 2 hours after the analysis time) for the continuous series:
+Finally, **Rolodex** is used to extract a **"best time series"** view dynamically.  For example, here a constant forecast offset (e.g., 2 hours after the analysis time) is selected for construction of the continuous series using the Rolodex "BestEstimate" method:
 
 ```python
 import rolodex.forecast
@@ -140,7 +140,8 @@ newds = ds.drop_indexes(["time", "step"]).set_xindex(
 
 ds_best = newds.sel(valid_time=BestEstimate(offset=2))  # start at forecast hour 2 instead of 0
 ```
-This produces a dynamically indexed dataset, effectively a continuous time series:
+
+This produces a virtual dataset with a continuous time variable:
 <img width="700" alt="Screenshot 2025-12-02 092738" src="https://github.com/user-attachments/assets/18540858-f761-46af-b177-cba9dd188085" />
 
 
@@ -153,4 +154,4 @@ Full notebook [here](https://www.google.com/search?q=https://github.com/OpenScie
 
 ## 💡 Conclusion
 
-The implementation of this pipeline for the **GlobalCoast/Protocoast** project successfully demonstrates a highly scalable and resilient approach to distributing complex met/ocean forecast data. By shifting from traditional data copying/merging to a **cloud-native virtualization strategy** leveraging **Virtualizarr, Icechunk, and Rolodex**, we have enabled **on-the-fly FMRC views** like the "best time series." This modern architecture ensures that end-users, whether running analysis on the **Pangeo@EOSC JupyterHub** or supporting critical coastal management decisions, have immediate, performant access to the continuous, authoritative data they require, all while streamlining the data provider's workflow and maximizing the utility of the EGI Cloud Infrastructure.
+The implementation of this pipeline for the **GlobalCoast/Protocoast** project successfully demonstrates a highly scalable and resilient approach to distributing collections of met/ocean forecast data. By using a **cloud-native virtualization strategy** leveraging **Virtualizarr, Icechunk, and Rolodex**, we have enabled **on-the-fly FMRC views** like the "best time series." This modern architecture ensures that end-users, whether running analysis or supporting critical coastal management decisions, have immediate, performant access to the continuous, authoritative data they require, while at the same time streamlining the data provider's workflow. 
