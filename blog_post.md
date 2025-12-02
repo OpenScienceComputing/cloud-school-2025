@@ -1,4 +1,5 @@
 ## 🌊 Cloud-Native Solutions for Met/Ocean Forecast Data
+### Rich Signell, Open Science Computing, LLC
 
 <img width="700" alt="Screenshot 2025-10-06 141233" src="https://github.com/user-attachments/assets/26701908-fcf3-4405-96b6-db2507d566f5" />
 
